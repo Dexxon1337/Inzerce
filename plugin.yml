@@ -1,5 +1,5 @@
-name: UkladacLokaci
-main: me.dexxon.UkladacLokaci
+name: Inzerce
+main: me.capanddex.Inzerce
 version: 1.0
 commands:
    inzerat:

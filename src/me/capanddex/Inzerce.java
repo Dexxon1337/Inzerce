@@ -11,7 +11,7 @@ public class Inzerce extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		config = this.getConfig();
-		getLogger().info("Plugin spuštìn.")
+		getLogger().info("Plugin spuštìn.");
 		
 	}
 
