@@ -12,12 +12,14 @@ public class Inzerce extends JavaPlugin {
 	public void onEnable() {
 		config = this.getConfig();
 		getLogger().info("Plugin spuštìn.");
+		saveConfig();
 		
 	}
 
 	@Override
 	public void onDisable() {
-
+		saveConfig();
+		getLogger().info("Plugin vypnut.");
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
@@ -29,6 +31,10 @@ public class Inzerce extends JavaPlugin {
 				String text = args[1];
 	//			ConfigHandler configHandle = new ConfigHandler(player,text,config);
 				ConfigHandler.ulozInzerat(player, text, config);
+			}
+			
+			if (args[0].equalsIgnoreCase("reload")) {	//reload
+				reloadConfig();
 			}
  
 			return true;
