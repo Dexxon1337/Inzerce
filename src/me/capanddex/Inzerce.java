@@ -37,8 +37,6 @@ public class Inzerce extends JavaPlugin {
 				}
 			} else {
 				sender.sendMessage("§cTento prikaz nemuzes pouzit v konzoli!");
-		if(sender instanceof Player) {
-			}
 				if (args[1].equalsIgnoreCase("reload")) {	//reloadcmd
 					if (sender.hasPermission("inzerat.admin")){
 						saveConfig();
