@@ -8,29 +8,38 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Inzerce extends JavaPlugin {
 	FileConfiguration config;
+
 	@Override
 	public void onEnable() {
 		config = this.getConfig();
-		getLogger().info("Plugin spuštìn.");
-		
+		saveDefaultConfig();
+		saveConfig();
+		getLogger().info("Plugin spusten.");
+
 	}
 
 	@Override
 	public void onDisable() {
-
+		saveConfig();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		if (cmd.getName().equalsIgnoreCase("inzerat")	&& sender instanceof Player) {
+		if (cmd.getName().equalsIgnoreCase("inzerat")
+				&& sender instanceof Player) {
 			Player player = (Player) sender;
-			
+
 			if (args[0].equalsIgnoreCase("vytvorit")) {
 				String text = args[1];
-	//			ConfigHandler configHandle = new ConfigHandler(player,text,config);
-				ConfigHandler.ulozInzerat(player, text, config);
+				// zatim to necham vsechno v onCommand
+				config.set("inzeraty." + player.getName() + ".inzerat", text);
+				saveConfig();
 			}
- 
+			else if(args[0].equalsIgnoreCase("smazat")){
+				config.set("inzeraty." + player.getName(), null);
+				saveConfig();
+			}
+
 			return true;
 		}
 		return false;
