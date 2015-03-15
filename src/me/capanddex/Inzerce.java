@@ -1,6 +1,5 @@
 package me.capanddex;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,6 +11,7 @@ public class Inzerce extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		config = this.getConfig();
+		getLogger().info("Plugin spuštìn.")
 		
 	}
 
@@ -27,8 +27,8 @@ public class Inzerce extends JavaPlugin {
 			
 			if (args[0].equalsIgnoreCase("vytvorit")) {
 				String text = args[1];
-				ConfigHandler configHandle = new ConfigHandler(player,text,config);
-				ConfigHandler.ulozInzerat();
+	//			ConfigHandler configHandle = new ConfigHandler(player,text,config);
+				ConfigHandler.ulozInzerat(player, text, config);
 			}
  
 			return true;
