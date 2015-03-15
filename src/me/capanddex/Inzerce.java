@@ -22,7 +22,7 @@ public class Inzerce extends JavaPlugin{
 
 			player.sendMessage(ChatColor.RED + "Ahoj, "+player.getName() + "!");
 			
-//Capitano má malý dick			
+	
 
 			return true;
 		}
