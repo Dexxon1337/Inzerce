@@ -1,0 +1,10 @@
+name: UkladacLokaci
+main: me.dexxon.UkladacLokaci
+version: 1.0
+commands:
+   saveloc:
+      description: Zapisuje lokaci do souboru
+      usage: /<command>
+   removeloc:
+      description: Smaze lokaci ze souboru
+      usage: /<command>
