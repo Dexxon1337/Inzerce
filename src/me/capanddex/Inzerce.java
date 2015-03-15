@@ -34,6 +34,7 @@ public class Inzerce extends JavaPlugin {
 			}
 			
 			if (args[0].equalsIgnoreCase("reload")) {	//reload
+				saveConfig();
 				reloadConfig();
 			}
  
