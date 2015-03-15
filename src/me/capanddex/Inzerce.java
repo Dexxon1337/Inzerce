@@ -21,7 +21,7 @@ public class Inzerce extends JavaPlugin{
 			Player player = (Player) sender;
 
 			player.sendMessage(ChatColor.RED + "Ahoj, "+player.getName() + "!");
-//toto je zmena
+//tohle je jina zmena
 	
 
 			return true;
