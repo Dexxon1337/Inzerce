@@ -25,84 +25,90 @@ public class Inzerce extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("inzerat")	&& sender instanceof Player) {
+		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			
-			if (args[0].equalsIgnoreCase("vytvorit")) {
-				String text = args[1];
-	//			ConfigHandler configHandle = new ConfigHandler(player,text,config);
-				ConfigHandler.ulozInzerat(player, text, config);
-			}
-			
-			if (args[1].equalsIgnoreCase("reload")) {	//reloadcmd
-				if (player.hasPermission("inzerat.admin")){
-				saveConfig();
-				reloadConfig();
-				player.sendMessage("§3Config §aRealoaded!");
+
+			if (cmd.getName().equalsIgnoreCase("inzerat")) {
+
+				if (args[0].equalsIgnoreCase("vytvorit")) {
+					String text = args[1];
+					//ConfigHandler configHandle = new ConfigHandler(player,text,config);
+					ConfigHandler.ulozInzerat(player, text, config);
 				}
+			} else {
+				sender.sendMessage("§cTento prikaz nemuzes pouzit v konzoli!");
+		if(sender instanceof Player) {
 			}
-			
-			if (args[2].equalsIgnoreCase("disable")) {	//plugin disable
-				if (player.hasPermission("inzerat.admin")){
-				this.setEnabled(false);
-				player.sendMessage("§3Plugin §aEnabled!");
+				if (args[1].equalsIgnoreCase("reload")) {	//reloadcmd
+					if (sender.hasPermission("inzerat.admin")){
+						saveConfig();
+						reloadConfig();
+						sender.sendMessage("§3Config §aRealoaded!");
+					}
 				}
-			}
 			
-			if (args[3].equalsIgnoreCase("enable")) {	//plugin enable
-				if (player.hasPermission("inzerat.admin")){
-				this.setEnabled(true);
-				player.sendMessage("§3Plugin §cDisabled!");
+				if (args[2].equalsIgnoreCase("disable")) {	//plugin disable
+					if (sender.hasPermission("inzerat.admin")){
+						this.setEnabled(false);
+						sender.sendMessage("§3Plugin §cDisabled!");
+					}
 				}
-			}
 			
-			if (args[4].equalsIgnoreCase("version")) {	//version
-				if (player.hasPermission("inzerat.admin")){
-					PluginDescriptionFile pdf = this.getDescription();
-					pdf.getVersion();
-					player.sendMessage("§3Plugin §6§lInzerce §3verze: §a" + pdf.getVersion());
+				if (args[3].equalsIgnoreCase("enable")) {	//plugin enable
+					if (sender.hasPermission("inzerat.admin")){
+						this.setEnabled(true);
+						sender.sendMessage("§3Plugin §aEnabled!");
+					}
 				}
-			}
 			
-			if (args[5].equalsIgnoreCase("help")) {	//helpcmd
-				if (player.hasPermission("inzerat.admin")){
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-					player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
-					player.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
-					player.sendMessage("§a/inzerat reload §b- reloadne plugin.");
-					player.sendMessage("§a/inzerat disable §b- vypne plugin.");
-					player.sendMessage("§a/inzerat enable §b- zapne plugin.");
-					player.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
+				if (args[4].equalsIgnoreCase("version")) {	//version
+					if (sender.hasPermission("inzerat.admin")){
+						PluginDescriptionFile pdf = this.getDescription();
+						pdf.getVersion();
+						sender.sendMessage("§3Plugin §6§lInzerce §3verze: §a" + pdf.getVersion());
+					}
 				}
+			
+				if (args[5].equalsIgnoreCase("help")) {	//helpcmd
+					if (sender.hasPermission("inzerat.admin")){
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+						sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
+						sender.sendMessage("§a/inzerat vytvorit <Item na prodej> <Pocet> <Cena> §b- vytvorí inzerát podle zadaných parametru.");
+						sender.sendMessage("§a/inzerat reload §b- reloadne plugin.");
+						sender.sendMessage("§a/inzerat disable §b- vypne plugin.");
+						sender.sendMessage("§a/inzerat enable §b- zapne plugin.");
+						sender.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+					}
+					else {
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+						sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
+						sender.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+					}
+				}
+			
 				else {
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-					player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
-					player.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-				}
-			}
-			
-			else {
-				if (player.hasPermission("inzerat.admin")){
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-					player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
-					player.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
-					player.sendMessage("§a/inzerat reload §b- reloadne plugin.");
-					player.sendMessage("§a/inzerat disable §b- vypne plugin.");
-					player.sendMessage("§a/inzerat enable §b- zapne plugin.");
-					player.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-				}
-				else {
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-					player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
-					player.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
-					player.sendMessage("§3[~~~~~~~~~~~~~~§6Plugin §lInzerce §6Help§3~~~~~~~~~~~~~~]");
-				}
+					if (sender.hasPermission("inzerat.admin")){
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+						sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
+						sender.sendMessage("§a/inzerat vytvorit <Item na prodej> <Pocet> <Cena> §b- vytvorí inzerát podle zadaných parametru.");
+						sender.sendMessage("§a/inzerat reload §b- reloadne plugin.");
+						sender.sendMessage("§a/inzerat disable §b- vypne plugin.");
+						sender.sendMessage("§a/inzerat enable §b- zapne plugin.");
+						sender.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+					}
+					else {
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+						sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
+						sender.sendMessage("§a/inzerat vytvorit [Item na prodej] [Pocet] [Cena] §b- vytvorí inzerát podle zadaných parametru.");
+						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+					}
 				
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
