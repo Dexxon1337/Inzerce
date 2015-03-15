@@ -5,4 +5,3 @@ commands:
    inzerat:
       description: Pracuje s inzeraty
       usage: /<command>
-    aliases: [inz]

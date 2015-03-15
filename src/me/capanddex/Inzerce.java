@@ -33,14 +33,18 @@ public class Inzerce extends JavaPlugin {
 			if (cmd.getName().equalsIgnoreCase("inzerat")) {
 
 				if (args[0].equalsIgnoreCase("vytvorit")) {
-					String text = args[1];
+					String[] stringSlov = new String[args.length];
+					for(int i=1;i < args.length;i++) {
+						stringSlov[i-1] = args[i];
+					}
+					String text = stringSlov.toString();
 					// ConfigHandler configHandle = new
 					// ConfigHandler(player,text,config);
 					ConfigHandler.ulozInzerat(player, text, config);
 				}
 			} else {
 				sender.sendMessage("§cTento prikaz nemuzes pouzit v konzoli!");
-				if (args[1].equalsIgnoreCase("reload")) { // reloadcmd
+				if (args[0].equalsIgnoreCase("reload")) { // reloadcmd
 					if (sender.hasPermission("inzerat.admin")) {
 						saveConfig();
 						reloadConfig();
@@ -48,21 +52,21 @@ public class Inzerce extends JavaPlugin {
 					}
 				}
 
-				if (args[2].equalsIgnoreCase("disable")) { // plugin disable
+				if (args[0].equalsIgnoreCase("disable")) { // plugin disable
 					if (sender.hasPermission("inzerat.admin")) {
 						this.setEnabled(false);
 						sender.sendMessage("§3Plugin §cDisabled!");
 					}
 				}
 
-				if (args[3].equalsIgnoreCase("enable")) { // plugin enable
+				if (args[0].equalsIgnoreCase("enable")) { // plugin enable
 					if (sender.hasPermission("inzerat.admin")) {
 						this.setEnabled(true);
 						sender.sendMessage("§3Plugin §aEnabled!");
 					}
 				}
 
-				if (args[4].equalsIgnoreCase("version")) { // version
+				if (args[0].equalsIgnoreCase("version")) { // version
 					if (sender.hasPermission("inzerat.admin")) {
 						PluginDescriptionFile pdf = this.getDescription();
 						pdf.getVersion();
@@ -71,7 +75,7 @@ public class Inzerce extends JavaPlugin {
 					}
 				}
 
-				if (args[5].equalsIgnoreCase("help")) { // helpcmd
+				if (args[0].equalsIgnoreCase("help")) { // helpcmd
 					if (sender.hasPermission("inzerat.admin")) {
 						sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 						sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
