@@ -29,7 +29,6 @@ public class Inzerce extends JavaPlugin {
 			String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-
 			if (cmd.getName().equalsIgnoreCase("inzerat")) {
 
 				if (args[0].equalsIgnoreCase("vytvorit")) {
@@ -42,7 +41,7 @@ public class Inzerce extends JavaPlugin {
 					// ConfigHandler(player,text,config);
 					ConfigHandler.ulozInzerat(player, text, config);
 				}
-			} else {
+			 else {
 				sender.sendMessage("§cTento prikaz nemuzes pouzit v konzoli!");
 				if (args[0].equalsIgnoreCase("reload")) { // reloadcmd
 					if (player.hasPermission("inzerat.admin")) {
@@ -115,6 +114,9 @@ public class Inzerce extends JavaPlugin {
 
 			}
 		}
+			else {
+				player.sendMessage("Špatné argumenty.");
+			}
 		return false;
 	}
 }
