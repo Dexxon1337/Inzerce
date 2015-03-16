@@ -8,9 +8,10 @@ public class ConfigHandler {
 	private String inzerat;
 	private FileConfiguration soubor;
 	*/
-	public static void ulozInzerat(Player inzerent, String inzerat, FileConfiguration soubor) {
-		soubor.set("inzeraty.hrac", inzerent.getName());
-		soubor.set("inzeraty.hrac.inzerat", inzerat);
+	public static void ulozInzerat(Player inzerent, String itemName, int count, FileConfiguration soubor) {
+		soubor.set("inzeraty."+inzerent.getName()+".item", itemName);
+		soubor.set("inzeraty."+inzerent.getName()+".itemcount", count);
+		
 	}
 /*	ConfigHandler(Player player, String text, FileConfiguration config) {
 		inzerent = player;
