@@ -25,8 +25,7 @@ public class Inzerce extends JavaPlugin {
 		getLogger().info("Plugin vypnut.");
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label,String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (cmd.getName().equalsIgnoreCase("inzerat")) {
@@ -117,6 +116,8 @@ public class Inzerce extends JavaPlugin {
 			else {
 				player.sendMessage("Špatné argumenty.");
 			}
+		return false;
+		}
 		return false;
 	}
 }
