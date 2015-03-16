@@ -4,12 +4,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Inzerce extends JavaPlugin {
+	
 	FileConfiguration config;
-
+	
+    public Permission playerPermission = new Permission("inzerat.admin");
+	
 	@Override
 	public void onEnable() {
 		config = this.getConfig();
@@ -114,7 +118,7 @@ public class Inzerce extends JavaPlugin {
 			}
 		}
 			else {
-				player.sendMessage("Špatné argumenty.");
+				player.sendMessage("§cŠpatné argumenty!");
 			}
 		return false;
 		}
