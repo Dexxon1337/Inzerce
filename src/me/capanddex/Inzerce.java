@@ -70,12 +70,10 @@ public class Inzerce extends JavaPlugin {
 
 				if (args[0].equalsIgnoreCase("version")) { // version
 					if (player.hasPermission("inzerat.admin")) {
-						PluginDescriptionFile pdf = this.getDescription();
-						pdf.getVersion();
-						player.sendMessage("§3Plugin §6§lInzerce §3verze: §a"
-								+ pdf.getVersion());
+						PluginDescriptionFile pdf = this.getDescription();pdf.getVersion();
+						player.sendMessage("§3Plugin §6§lInzerce §3verze: §a" + pdf.getVersion());
 					}
-				}
+				} 
 
 				if (args[0].equalsIgnoreCase("help")) { // helpcmd
 					if (player.hasPermission("inzerat.admin")) {
@@ -121,17 +119,17 @@ public class Inzerce extends JavaPlugin {
 				player.sendMessage("§cŠpatné argumenty!");
 			}
 		return false;
-		}
-		else { 				//Tato zprava se odesle, pokud odesilatel prikazu neni hrac(aka konzole).
-			sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
-			sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
-			sender.sendMessage("§a/inzerat vytvorit <Item na prodej> <Pocet> <Cena> §b- vytvorí inzerát podle zadaných parametru.");
-			sender.sendMessage("§a/inzerat reload §b- reloadne plugin.");
-			sender.sendMessage("§a/inzerat disable §b- vypne plugin.");
-			sender.sendMessage("§a/inzerat enable §b- zapne plugin.");
-			sender.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
-			sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
-		}
+			}
+			else { 				//Tato zprava se odesle, pokud odesilatel prikazu neni hrac(aka konzole).
+				sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+				sender.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
+				sender.sendMessage("§a/inzerat vytvorit <Item na prodej> <Pocet> <Cena> §b- vytvorí inzerát podle zadaných parametru.");
+				sender.sendMessage("§a/inzerat reload §b- reloadne plugin.");
+				sender.sendMessage("§a/inzerat disable §b- vypne plugin.");
+				sender.sendMessage("§a/inzerat enable §b- zapne plugin.");
+				sender.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
+				sender.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
+			}
 		return false;
 	}
 }
