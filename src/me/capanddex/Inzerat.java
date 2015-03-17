@@ -39,8 +39,8 @@ public class Inzerat {
 	public void setAdvertiser(Player advertiser) {
 		this.advertiser = advertiser;
 	}
-	public void setMat(Material itemInHand) {
-		this.mat = itemInHand;
+	public void setMat(Material mat) {
+		this.mat = mat;
 	}
 	public void setPrice(float price) {
 		this.price = price;

@@ -2,10 +2,8 @@ package me.capanddex;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_8_R1.LocaleLanguage;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -87,6 +85,13 @@ public class Inzerce extends JavaPlugin {
 				else if (args[0].equalsIgnoreCase("help")) {
 					help(player);
 				}
+				else if (args[0].equalsIgnoreCase("vypsat")) {
+					player.sendMessage(ChatColor.AQUA + "+++++Výpis všech aktuálních inzerátù+++++");
+					for(int i = 0; i<list.size(); i++) {
+					// tady bude výpis	
+						player.sendMessage("Inzerent: " + "" + " Pøedmìt: " + "" + " Poèet: " + "" + " Cena: " + "");
+					}
+				}
 
 				/*
 				 * else if (args[0].equalsIgnoreCase("reload")) { // plugin //
@@ -101,11 +106,14 @@ public class Inzerce extends JavaPlugin {
 								.getDescription();
 						player.sendMessage("§3Plugin §6§lInzerce §3verze: §a"
 								+ description.getVersion());
-					} else {
+					} 
+					else {
 						player.sendMessage("§cNa tento prikaz nemas opravneni!");
 					}
 				}
+				
 			}
+		}
 
 			// pøíkazy pøes konzoli
 			else {
@@ -132,8 +140,7 @@ public class Inzerce extends JavaPlugin {
 					}
 				}
 			}
-		}
-		return true;
+			return true;
 	}
 
 	// help do konzole
