@@ -89,7 +89,7 @@ public class Inzerce extends JavaPlugin {
 					player.sendMessage(ChatColor.AQUA + "+++++Výpis všech aktuálních inzerátù+++++");
 					for(int i = 0; i<list.size(); i++) {
 					// tady bude výpis	
-						player.sendMessage("Inzerent: " + "" + " Pøedmìt: " + "" + " Poèet: " + "" + " Cena: " + "");
+						player.sendMessage("Inzerent: " + list.get(i).getAdvertiser() + "| Pøedmìt: " + list.get(i).getMat().toString() + "| Poèet: " + list.get(i).getCount() + "| Cena: " + list.get(i).getPrice());
 					}
 				}
 
