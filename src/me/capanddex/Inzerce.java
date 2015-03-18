@@ -91,32 +91,39 @@ public class Inzerce extends JavaPlugin {
 							}
 						}
 					} else {
+						if (args.length > 2) {
 						for (int i = 0; i < list.size(); i++) {
-							if (StringUtils.isNumeric(args[1])) {
-								if (Integer.parseInt(args[1]) == list.get(i)
-										.getID()) {
-									if (player.getName().equals(
-											list.get(i).getAdvertiser()
-													.getName())) {
-										list.remove(i);
-										player.sendMessage(ChatColor.GREEN
-												+ "Inzerát úspìšnì odstranìn.");
+								if (StringUtils.isNumeric(args[1])) {
+									if (Integer.parseInt(args[1]) == list
+											.get(i).getID()) {
+										if (player.getName().equals(
+												list.get(i).getAdvertiser()
+														.getName())) {
+											list.remove(i);
+											player.sendMessage(ChatColor.GREEN
+													+ "Inzerát úspìšnì odstranìn.");
+										} else {
+											player.sendMessage(ChatColor.RED
+													+ "Mùžeš mazat jen vlastní inzeráty.");
+											return true;
+										}
 									} else {
 										player.sendMessage(ChatColor.RED
-												+ "Mùžeš mazat jen vlastní inzeráty.");
-										return true;
+												+ "Inzerát s tímto ID neexistuje.");
 									}
 								} else {
 									player.sendMessage(ChatColor.RED
-											+ "Inzerát s tímto ID neexistuje.");
+											+ "ID musí být èíslo ze seznamu (/inzerat vypsat)");
 								}
-							} else {
-								player.sendMessage(ChatColor.RED
-										+ "ID musí být èíslo ze seznamu (/inzerat vypsat)");
 							}
-						}
-					}
 
+						}
+						else {
+							player.sendMessage(ChatColor.RED
+									+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
+						}
+
+					}
 				}
 
 				/*
