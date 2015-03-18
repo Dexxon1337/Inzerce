@@ -60,10 +60,10 @@ public class Inzerce extends JavaPlugin {
 					player.sendMessage(ChatColor.AQUA + "---Výpis všech "
 							+ list.size() + " inzerátù---");
 					for (int i = 0; i < list.size(); i++) {
-						player.sendMessage("Inzerent: "
-								+ list.get(i).getAdvertiser().getDisplayName() + "| Pøedmìt: "
-								+ list.get(i).getMat().toString() + "| Poèet: "
-								+ list.get(i).getCount() + "| Cena: "
+						player.sendMessage("ID: " + list.get(i).getID() + " Inzerent: "
+								+ list.get(i).getAdvertiser().getDisplayName() + " Pøedmìt: "
+								+ list.get(i).getMat().toString().toLowerCase() + " Poèet: "
+								+ list.get(i).getCount() + " Cena: "
 								+ list.get(i).getPrice());
 					}
 					player.sendMessage(ChatColor.AQUA + "---Konec seznamu---");
@@ -90,6 +90,7 @@ public class Inzerce extends JavaPlugin {
 								}
 								else {
 									player.sendMessage(ChatColor.RED + "Mùžeš mazat jen vlastní inzeráty.");
+									return true;
 								}
 							}
 							else {
