@@ -78,21 +78,27 @@ public class Inzerce extends JavaPlugin {
 					player.sendMessage(ChatColor.AQUA + "---Konec seznamu---");
 				} else if (args[0].equalsIgnoreCase("smazat")) {
 					if (player.hasPermission("inzerat.admin")) {
-						if (StringUtils.isNumeric(args[1])) {
-							for (int i = 0; i < list.size(); i++) {
-								if (Integer.parseInt(args[1]) == list.get(i)
-										.getID()) {
-									list.remove(i);
+						if (args.length >= 2) {
+							if (StringUtils.isNumeric(args[1])) {
+								for (int i = 0; i < list.size(); i++) {
+									if (Integer.parseInt(args[1]) == list
+											.get(i).getID()) {
+										list.remove(i);
 
-									player.sendMessage(ChatColor.GREEN
-											+ "Inzerát úspìšnì odstranìn.");
+										player.sendMessage(ChatColor.GREEN
+												+ "Inzerát úspìšnì odstranìn.");
+									}
+
 								}
-
 							}
+						} else {
+							player.sendMessage(ChatColor.RED
+									+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
 						}
+
 					} else {
-						if (args.length > 2) {
-						for (int i = 0; i < list.size(); i++) {
+						if (args.length >= 2) {
+							for (int i = 0; i < list.size(); i++) {
 								if (StringUtils.isNumeric(args[1])) {
 									if (Integer.parseInt(args[1]) == list
 											.get(i).getID()) {
@@ -117,8 +123,7 @@ public class Inzerce extends JavaPlugin {
 								}
 							}
 
-						}
-						else {
+						} else {
 							player.sendMessage(ChatColor.RED
 									+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
 						}
