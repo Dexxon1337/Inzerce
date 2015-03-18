@@ -42,7 +42,7 @@ public class Inzerce extends JavaPlugin {
 					help(player);
 				} else if (args[0].equalsIgnoreCase("prodam")) {
 					Inzerat ad = prodam(player, args, counter);
-					if (!ad.equals(null)) {
+					if (ad.getID() != 0) {
 						this.getServer().broadcastMessage("Hrac " + ad.getAdvertiser().getDisplayName() + " prodává " + ad.getCount() + " ks " + ad.getMat().toString().toLowerCase() + ". Cena: €" + ad.getPrice());
 						list.add(ad);
 						counter++;
@@ -176,7 +176,7 @@ public class Inzerce extends JavaPlugin {
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 			player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
 			player.sendMessage("§a/inzerat prodam [Pocet] [Cena] §b- vytvorí prodejní inzerát na item, který máte v ruce.");
-			player.sendMessage("§a/inzerat prodam [item] [Pocet] [Cena]   §b- vytvorí kupní inzerát na zadaný item.");
+//			player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena]   §b- vytvorí kupní inzerát na zadaný item.");
 			// player.sendMessage("§a/inzerat reload §b- reloadne plugin.");
 			// player.sendMessage("§a/inzerat disable §b- vypne plugin.");
 			player.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
@@ -185,7 +185,7 @@ public class Inzerce extends JavaPlugin {
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 			player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
 			player.sendMessage("§a/inzerat prodam [Pocet] [Cena] §b- vytvorí prodejní inzerát na item, který máte v ruce.");
-			player.sendMessage("§a/inzerat prodam [item] [Pocet] [Cena] §b- vytvorí kupní inzerát na zadaný item.");
+	//		player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena] §b- vytvorí kupní inzerát na zadaný item.");
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 		}
 
@@ -199,30 +199,41 @@ public class Inzerce extends JavaPlugin {
 		Inzerat ad;
 		if (!(item.getType().equals(Material.AIR))) {
 			mat = player.getItemInHand().getType();
-	
+			if(args[1] != null && args[2] != null) { 
 			if (StringUtils.isNumeric(args[2])) {
 				price = Float.parseFloat(args[2]);
 				if (StringUtils.isNumeric(args[1])) {
 					pocet = Integer.parseInt(args[1]);
 					ad = new Inzerat(count, player, mat, price, pocet, false);
+					return ad;
 				} else {
 					player.sendMessage(ChatColor.RED + "Pocet musí být cislo!");
 					ad = new Inzerat(0, player, mat, price, pocet, false);
+					return ad;
 				}
 			}
 
 			else {
 				player.sendMessage(ChatColor.RED + "Cena musí být cislo!");
 				ad = new Inzerat(0, player, mat, price, pocet, false);
+				return ad;
 			}
-			
-		} else {
+			}
+			else {
+				player.sendMessage(ChatColor.RED
+						+ "Pøíklad musí být zadán ve tvaru §a/inzerat [Pocet] [Cena].");
+				ad = new Inzerat(0, player, mat, price, pocet, false);
+				return ad;
+			}
+		}
+		 else {
 			player.sendMessage(ChatColor.RED
 					+ "Musíš držet v ruce nìjaký item!");
 			ad = new Inzerat(0, player, Material.AIR, price, pocet, false);
 
+			return ad;
 		}
-		return ad;
+
 	}
 
 }
