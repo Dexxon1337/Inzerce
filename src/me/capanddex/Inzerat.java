@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class Inzerat {
+	private int ID;
 	private Player advertiser;
 	private Material mat;
 	private float price;
@@ -13,14 +14,17 @@ public class Inzerat {
 	private boolean buy;
 
 	
-	Inzerat(Player player, Material item, float aPrice, int number, boolean isBuy) {
+	Inzerat(int serial, Player player, Material item, float aPrice, int number, boolean isBuy) {
+		ID = serial;
 		advertiser = player;
 		mat = item;
 		price = aPrice;
 		count = number;
 		buy = isBuy;
 	}
-
+	public int getID() {
+		return ID;
+	}
 	public Player getAdvertiser() {
 		return advertiser;
 	}
