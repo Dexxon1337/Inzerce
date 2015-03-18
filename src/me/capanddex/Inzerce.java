@@ -17,6 +17,7 @@ public class Inzerce extends JavaPlugin {
 	FileConfiguration config;
 	ArrayList<Inzerat> list;
 	int counter = 1;
+
 	@Override
 	public void onEnable() {
 		config = this.getConfig();
@@ -43,12 +44,18 @@ public class Inzerce extends JavaPlugin {
 				} else if (args[0].equalsIgnoreCase("prodam")) {
 					Inzerat ad = prodam(player, args, counter);
 					if (ad.getID() != 0) {
-						this.getServer().broadcastMessage("Hrac " + ad.getAdvertiser().getDisplayName() + " prodává " + ad.getCount() + " ks " + ad.getMat().toString().toLowerCase() + ". Cena: €" + ad.getPrice());
+						this.getServer().broadcastMessage(
+								"§6Hrac §d"
+										+ ad.getAdvertiser().getDisplayName()
+										+ "§6 prodává §d" + ad.getCount()
+										+ "§6 ks §d"
+										+ ad.getMat().toString().toLowerCase()
+										+ "§6. Cena: §d€" + ad.getPrice()
+										+ "§6 ID: §d" + ad.getID());
 						list.add(ad);
 						counter++;
 						return true;
-					}
-					else {
+					} else {
 						return true;
 					}
 				}
@@ -60,50 +67,56 @@ public class Inzerce extends JavaPlugin {
 					player.sendMessage(ChatColor.AQUA + "---Výpis všech "
 							+ list.size() + " inzerátù---");
 					for (int i = 0; i < list.size(); i++) {
-						player.sendMessage("ID: " + list.get(i).getID() + " Inzerent: "
-								+ list.get(i).getAdvertiser().getDisplayName() + " Pøedmìt: "
-								+ list.get(i).getMat().toString().toLowerCase() + " Poèet: "
-								+ list.get(i).getCount() + " Cena: "
-								+ list.get(i).getPrice());
+						player.sendMessage("§6ID: §d" + list.get(i).getID()
+								+ "§6 Inzerent: §d"
+								+ list.get(i).getAdvertiser().getDisplayName()
+								+ "§6 Pøedmìt: §d"
+								+ list.get(i).getMat().toString().toLowerCase()
+								+ "§6 Poèet: §d" + list.get(i).getCount()
+								+ "§6 Cena: §d" + list.get(i).getPrice());
 					}
 					player.sendMessage(ChatColor.AQUA + "---Konec seznamu---");
-				}
-				else if (args[0].equalsIgnoreCase("smazat")) {
+				} else if (args[0].equalsIgnoreCase("smazat")) {
 					if (player.hasPermission("inzerat.admin")) {
-						if(StringUtils.isNumeric(args[1])) {
-							for(int i=0; i<list.size();i++) {
-							if(Integer.parseInt(args[1])==list.get(i).getID()) {
-							list.remove(i);
-							
-							player.sendMessage(ChatColor.GREEN + "Inzerát úspìšnì odstranìn.");
-							}
-						
-						}
-						}
-					}
-					else {
-						for(int i = 0; i<list.size(); i++) {
-							if(StringUtils.isNumeric(args[1])) {
-							if(Integer.parseInt(args[1])==list.get(i).getID()) {
-								if(player.getName().equals(list.get(i).getAdvertiser().getName())) {
+						if (StringUtils.isNumeric(args[1])) {
+							for (int i = 0; i < list.size(); i++) {
+								if (Integer.parseInt(args[1]) == list.get(i)
+										.getID()) {
 									list.remove(i);
-									player.sendMessage(ChatColor.GREEN + "Inzerát úspìšnì odstranìn.");
+
+									player.sendMessage(ChatColor.GREEN
+											+ "Inzerát úspìšnì odstranìn.");
 								}
-								else {
-									player.sendMessage(ChatColor.RED + "Mùžeš mazat jen vlastní inzeráty.");
-									return true;
-								}
-							}
-							else {
-								player.sendMessage(ChatColor.RED + "Inzerát s tímto ID neexistuje.");
+
 							}
 						}
-							else {
-								player.sendMessage(ChatColor.RED + "ID musí být èíslo ze seznamu (/inzerat vypsat)");
+					} else {
+						for (int i = 0; i < list.size(); i++) {
+							if (StringUtils.isNumeric(args[1])) {
+								if (Integer.parseInt(args[1]) == list.get(i)
+										.getID()) {
+									if (player.getName().equals(
+											list.get(i).getAdvertiser()
+													.getName())) {
+										list.remove(i);
+										player.sendMessage(ChatColor.GREEN
+												+ "Inzerát úspìšnì odstranìn.");
+									} else {
+										player.sendMessage(ChatColor.RED
+												+ "Mùžeš mazat jen vlastní inzeráty.");
+										return true;
+									}
+								} else {
+									player.sendMessage(ChatColor.RED
+											+ "Inzerát s tímto ID neexistuje.");
+								}
+							} else {
+								player.sendMessage(ChatColor.RED
+										+ "ID musí být èíslo ze seznamu (/inzerat vypsat)");
 							}
+						}
 					}
-				}
-					
+
 				}
 
 				/*
@@ -122,8 +135,7 @@ public class Inzerce extends JavaPlugin {
 					} else {
 						player.sendMessage("§cNa tento prikaz nemas opravneni!");
 					}
-				}
-				else {
+				} else {
 					help(player);
 				}
 
@@ -176,7 +188,7 @@ public class Inzerce extends JavaPlugin {
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 			player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
 			player.sendMessage("§a/inzerat prodam [Pocet] [Cena] §b- vytvorí prodejní inzerát na item, který máte v ruce.");
-//			player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena]   §b- vytvorí kupní inzerát na zadaný item.");
+			// player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena]   §b- vytvorí kupní inzerát na zadaný item.");
 			// player.sendMessage("§a/inzerat reload §b- reloadne plugin.");
 			// player.sendMessage("§a/inzerat disable §b- vypne plugin.");
 			player.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
@@ -185,13 +197,13 @@ public class Inzerce extends JavaPlugin {
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 			player.sendMessage("§a/inzerat help §b- zobrazí tuto nápovedu.");
 			player.sendMessage("§a/inzerat prodam [Pocet] [Cena] §b- vytvorí prodejní inzerát na item, který máte v ruce.");
-	//		player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena] §b- vytvorí kupní inzerát na zadaný item.");
+			// player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena] §b- vytvorí kupní inzerát na zadaný item.");
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 		}
 
 	}
 
-	public static Inzerat prodam(Player player, String[] args,int count) {
+	public static Inzerat prodam(Player player, String[] args, int count) {
 		float price = 0;
 		int pocet = 0;
 		Material mat;
@@ -199,34 +211,34 @@ public class Inzerce extends JavaPlugin {
 		Inzerat ad;
 		if (!(item.getType().equals(Material.AIR))) {
 			mat = player.getItemInHand().getType();
-			if(args[1] != null && args[2] != null) { 
-			if (StringUtils.isNumeric(args[2])) {
-				price = Float.parseFloat(args[2]);
-				if (StringUtils.isNumeric(args[1])) {
-					pocet = Integer.parseInt(args[1]);
-					ad = new Inzerat(count, player, mat, price, pocet, false);
-					return ad;
-				} else {
-					player.sendMessage(ChatColor.RED + "Pocet musí být cislo!");
+			if (args.length >= 3) {
+				if (StringUtils.isNumeric(args[2])) {
+					price = Float.parseFloat(args[2]);
+					if (StringUtils.isNumeric(args[1])) {
+						pocet = Integer.parseInt(args[1]);
+						ad = new Inzerat(count, player, mat, price, pocet,
+								false);
+						return ad;
+					} else {
+						player.sendMessage(ChatColor.RED
+								+ "Pocet musí být cislo!");
+						ad = new Inzerat(0, player, mat, price, pocet, false);
+						return ad;
+					}
+				}
+
+				else {
+					player.sendMessage(ChatColor.RED + "Cena musí být cislo!");
 					ad = new Inzerat(0, player, mat, price, pocet, false);
 					return ad;
 				}
-			}
-
-			else {
-				player.sendMessage(ChatColor.RED + "Cena musí být cislo!");
-				ad = new Inzerat(0, player, mat, price, pocet, false);
-				return ad;
-			}
-			}
-			else {
+			} else {
 				player.sendMessage(ChatColor.RED
 						+ "Pøíklad musí být zadán ve tvaru §a/inzerat [Pocet] [Cena].");
 				ad = new Inzerat(0, player, mat, price, pocet, false);
 				return ad;
 			}
-		}
-		 else {
+		} else {
 			player.sendMessage(ChatColor.RED
 					+ "Musíš držet v ruce nìjaký item!");
 			ad = new Inzerat(0, player, Material.AIR, price, pocet, false);
