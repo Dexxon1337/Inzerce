@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,21 +42,12 @@ public class Inzerce extends JavaPlugin {
 			if (cmd.getName().equalsIgnoreCase("inzerat")) {
 				if (args.length == 0) {
 					help(player);
-				} else if (args[0].equalsIgnoreCase("prodam")) {
-					Inzerat ad = prodam(player, args, counter);
-					if (ad.getID() != 0) {
-						this.getServer().broadcastMessage(
-								"§6Hrac §d"
-										+ ad.getAdvertiser().getDisplayName()
-										+ "§6 prodává §d" + ad.getCount()
-										+ "§6 ks §d"
-										+ ad.getMat().toString().toLowerCase()
-										+ "§6. Cena: §d€" + ad.getPrice()
-										+ "§6 ID: §d" + ad.getID());
-						list.add(ad);
+				}
+				else if (args[0].equalsIgnoreCase("prodam")) {
+					String zprava = prodam(player, args, counter, list);
+					if(zprava!=null) {
+						this.getServer().broadcastMessage(zprava);
 						counter++;
-						return true;
-					} else {
 						return true;
 					}
 				}
@@ -63,95 +55,37 @@ public class Inzerce extends JavaPlugin {
 				else if (args[0].equalsIgnoreCase("help")) {
 					help(player);
 				} else if (args[0].equalsIgnoreCase("vypsat")) {
-
-					player.sendMessage(ChatColor.AQUA + "---Výpis všech "
-							+ list.size() + " inzerátù---");
-					for (int i = 0; i < list.size(); i++) {
-						player.sendMessage("§6ID: §d" + list.get(i).getID()
-								+ "§6 Inzerent: §d"
-								+ list.get(i).getAdvertiser().getDisplayName()
-								+ "§6 Pøedmìt: §d"
-								+ list.get(i).getMat().toString().toLowerCase()
-								+ "§6 Poèet: §d" + list.get(i).getCount()
-								+ "§6 Cena: §d" + list.get(i).getPrice());
-					}
-					player.sendMessage(ChatColor.AQUA + "---Konec seznamu---");
-				} else if (args[0].equalsIgnoreCase("smazat")) {
-					if (player.hasPermission("inzerat.admin")) {
-						if (args.length >= 2) {
-							if (StringUtils.isNumeric(args[1])) {
-								for (int i = 0; i < list.size(); i++) {
-									if (Integer.parseInt(args[1]) == list
-											.get(i).getID()) {
-										list.remove(i);
-
-										player.sendMessage(ChatColor.GREEN
-												+ "Inzerát úspìšnì odstranìn.");
-									}
-
-								}
-							}
-						} else {
-							player.sendMessage(ChatColor.RED
-									+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
-						}
-
-					} else {
-						if (args.length >= 2) {
-							for (int i = 0; i < list.size(); i++) {
-								if (StringUtils.isNumeric(args[1])) {
-									if (Integer.parseInt(args[1]) == list
-											.get(i).getID()) {
-										if (player.getName().equals(
-												list.get(i).getAdvertiser()
-														.getName())) {
-											list.remove(i);
-											player.sendMessage(ChatColor.GREEN
-													+ "Inzerát úspìšnì odstranìn.");
-										} else {
-											player.sendMessage(ChatColor.RED
-													+ "Mùžeš mazat jen vlastní inzeráty.");
-											return true;
-										}
-									} else {
-										player.sendMessage(ChatColor.RED
-												+ "Inzerát s tímto ID neexistuje.");
-									}
-								} else {
-									player.sendMessage(ChatColor.RED
-											+ "ID musí být èíslo ze seznamu (/inzerat vypsat)");
-								}
-							}
-
-						} else {
-							player.sendMessage(ChatColor.RED
-									+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
-						}
-
-					}
+					vypsat(player, list);
 				}
 
-				/*
-				 * else if (args[0].equalsIgnoreCase("reload")) { // plugin //
-				 * disable if (player.hasPermission("inzerat.admin")) {
-				 * this.setEnabled(false);
-				 * player.sendMessage("§3Plugin §cReloaded!"); } }
-				 */
-
-				else if (args[0].equalsIgnoreCase("version")) { // version
-					if (player.hasPermission("inzerat.admin")) {
-						PluginDescriptionFile description = this
-								.getDescription();
-						player.sendMessage("§3Plugin §6§lInzerce §3verze: §a"
-								+ description.getVersion());
-					} else {
-						player.sendMessage("§cNa tento prikaz nemas opravneni!");
-					}
-				} else {
-					help(player);
-				}
-
+			} else if (args[0].equalsIgnoreCase("smazat")) {
+				smazat(player, args, list);
 			}
+
+			/*
+			 * else if (args[0].equalsIgnoreCase("reload")) { // plugin //
+			 * disable if (player.hasPermission("inzerat.admin")) {
+			 * this.setEnabled(false);
+			 * player.sendMessage("§3Plugin §cReloaded!"); } }
+			 */
+			else if (args[0].equalsIgnoreCase("fake")) {
+				if (player.hasPermission("inzerat.admin")) {
+					addToList(player, list);
+				}
+			}
+
+			else if (args[0].equalsIgnoreCase("version")) { // version
+				if (player.hasPermission("inzerat.admin")) {
+					PluginDescriptionFile description = this.getDescription();
+					player.sendMessage("§3Plugin §6§lInzerce §3verze: §a"
+							+ description.getVersion());
+				} else {
+					player.sendMessage("§cNa tento prikaz nemas opravneni!");
+				}
+			} else {
+				help(player);
+			}
+
 		}
 
 		// pøíkazy pøes konzoli
@@ -203,6 +137,7 @@ public class Inzerce extends JavaPlugin {
 			// player.sendMessage("§a/inzerat koupim [item] [Pocet] [Cena]   §b- vytvorí kupní inzerát na zadaný item.");
 			// player.sendMessage("§a/inzerat reload §b- reloadne plugin.");
 			// player.sendMessage("§a/inzerat disable §b- vypne plugin.");
+			player.sendMessage("§a/inzerat vypsat §b- zobrazí verzi pluginu.");
 			player.sendMessage("§a/inzerat version §b- zobrazí verzi pluginu.");
 			player.sendMessage("§3[********************§6Plugin §lInzerce §6Help§3********************]");
 		} else {
@@ -215,7 +150,8 @@ public class Inzerce extends JavaPlugin {
 
 	}
 
-	public static Inzerat prodam(Player player, String[] args, int count) {
+	public static String prodam(Player player, String[] args, int count,
+			ArrayList<Inzerat> list) {
 		float price = 0;
 		int pocet = 0;
 		Material mat;
@@ -228,36 +164,143 @@ public class Inzerce extends JavaPlugin {
 					price = Float.parseFloat(args[2]);
 					if (StringUtils.isNumeric(args[1])) {
 						pocet = Integer.parseInt(args[1]);
+						if(hasItem(player, item.getType(), pocet)){
 						ad = new Inzerat(count, player, mat, price, pocet,
 								false);
-						return ad;
+						list.add(ad);
+						String txt = "§6Hrac §d"
+								+ ad.getAdvertiser().getDisplayName()
+								+ "§6 prodává §d" + ad.getCount() + "§6 ks §d"
+								+ ad.getMat().toString().replace("_"," ").toLowerCase()
+								+ "§6. Cena: §d€" + ad.getPrice() + "§6 ID: §d"
+								+ ad.getID();
+						return txt;
+						}
+						else {
+							player.sendMessage(ChatColor.RED + "Nemáš dostateèné množství k prodeji. Vezmi si další do inventáøe nebo prodávej menší množství.");
+							return null;
+						}
 					} else {
 						player.sendMessage(ChatColor.RED
 								+ "Pocet musí být cislo!");
-						ad = new Inzerat(0, player, mat, price, pocet, false);
-						return ad;
 					}
 				}
 
 				else {
 					player.sendMessage(ChatColor.RED + "Cena musí být cislo!");
-					ad = new Inzerat(0, player, mat, price, pocet, false);
-					return ad;
+
 				}
 			} else {
 				player.sendMessage(ChatColor.RED
 						+ "Pøíklad musí být zadán ve tvaru §a/inzerat [Pocet] [Cena].");
-				ad = new Inzerat(0, player, mat, price, pocet, false);
-				return ad;
+
 			}
 		} else {
 			player.sendMessage(ChatColor.RED
 					+ "Musíš držet v ruce nìjaký item!");
-			ad = new Inzerat(0, player, Material.AIR, price, pocet, false);
 
-			return ad;
 		}
+		return null;
 
 	}
 
+	public static void smazat(Player player, String[] args,
+			ArrayList<Inzerat> list) {
+		if (player.hasPermission("inzerat.admin")) {
+			if (args.length >= 2) {
+				if (StringUtils.isNumeric(args[1])) {
+					for (int i = 0; i < list.size(); i++) {
+						if (Integer.parseInt(args[1]) == list.get(i).getID()) {
+							list.remove(i);
+							player.sendMessage(ChatColor.GREEN
+									+ "Inzerát úspìšnì odstranìn.");
+						}
+
+					}
+				}
+			} else {
+				player.sendMessage(ChatColor.RED
+						+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
+			}
+
+		} else {
+			if (args.length >= 2) {
+					if (StringUtils.isNumeric(args[1])) {
+						for (int i = 0; i < list.size(); i++) {
+						if (Integer.parseInt(args[1]) == list.get(i).getID()) {
+							if (player.getName().equals(list.get(i).getAdvertiser().getName())) {
+								list.remove(i);
+								player.sendMessage(ChatColor.GREEN
+										+ "Inzerát úspìšnì odstranìn.");
+							}
+							else {
+								player.sendMessage(ChatColor.RED
+										+ "Mùžeš mazat jen vlastní inzeráty.");
+								return;
+							}
+						}
+						else {
+							player.sendMessage(ChatColor.RED
+									+ "Inzerát s tímto ID neexistuje.");
+						}
+					}
+					
+				}
+					else {
+						player.sendMessage(ChatColor.RED
+								+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
+					}
+
+			} else {
+				player.sendMessage(ChatColor.RED
+						+ "Pøíkaz musí být zadán ve tvaru §a/inzerat smazat [id]§c.");
+			}
+		}
+	}
+
+	public static void vypsat(Player player, ArrayList<Inzerat> list) {
+
+		player.sendMessage(ChatColor.AQUA + "---Výpis všech " + list.size()
+				+ " inzerátù---");
+		for (int i = 0; i < list.size(); i++) {
+			player.sendMessage("§6ID: §d" + list.get(i).getID()
+					+ "§6 Inzerent: §d"
+					+ list.get(i).getAdvertiser().getDisplayName()
+					+ "§6 Pøedmìt: §d"
+					+ list.get(i).getMat().toString().toLowerCase()
+					+ "§6 Poèet: §d" + list.get(i).getCount() + "§6 Cena: §d"
+					+ list.get(i).getPrice());
+		}
+		player.sendMessage(ChatColor.AQUA + "---Konec seznamu---");
+	}
+
+	public static void addToList(Player player, ArrayList<Inzerat> list) {
+		Inzerat ad = new Inzerat(0, player, Material.AIR, 1, 1, false);
+		player.sendMessage(ChatColor.GREEN + "Pøidávám fejkový inzerát");
+		list.add(ad);
+	}
+	
+	public static boolean hasItem(Player player, Material itemInHand, int count) {
+    PlayerInventory inventory = player.getInventory();
+    ItemStack[] items = inventory.getContents();
+    int has = 0;
+    for (ItemStack item : items)
+    {
+        if ((item != null) && (item.getType().equals(itemInHand)) && (item.getAmount() > 0))
+        {
+            has += item.getAmount();
+        }
+    }
+    if(has >= count) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+    
+	}
+    
 }
+
+
+
