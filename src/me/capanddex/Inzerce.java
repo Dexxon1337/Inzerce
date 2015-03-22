@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -15,22 +14,18 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Inzerce extends JavaPlugin {
-	FileConfiguration config;
-	ArrayList<Inzerat> list;
-	int counter = 1;
+	private ArrayList<Inzerat> list;
+	private int counter = 1;
 
 	@Override
 	public void onEnable() {
-		config = this.getConfig();
-		saveDefaultConfig();
+		new LogoutListener(this);
 		getLogger().info("Plugin spusten.");
-		saveConfig();
 		list = new ArrayList<Inzerat>();
 	}
 
 	@Override
 	public void onDisable() {
-		saveConfig();
 		getLogger().info("Plugin vypnut.");
 
 	}
@@ -299,7 +294,9 @@ public class Inzerce extends JavaPlugin {
     }
     
 	}
-    
+    public ArrayList<Inzerat> getList() {
+    	return this.list;
+    }
 }
 
 
