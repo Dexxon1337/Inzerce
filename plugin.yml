@@ -1,6 +1,7 @@
 name: Inzerce
 main: me.capanddex.Inzerce
 version: 1.0
+depend: [Vault]
 commands:
    inzerat:
       description: Pracuje s inzeraty
