@@ -7,14 +7,14 @@ public class Inzerat {
 	private int ID;
 	private Player advertiser;
 	private Material mat;
-	private float price;
+	private double price;
 	private int count;
 	
 	//kind of advert - sell = false, buy = true
 	private boolean buy;
 
 	
-	Inzerat(int serial, Player player, Material item, float aPrice, int number, boolean isBuy) {
+	Inzerat(int serial, Player player, Material item, double aPrice, int number, boolean isBuy) {
 		ID = serial;
 		advertiser = player;
 		mat = item;
@@ -31,7 +31,7 @@ public class Inzerat {
 	public Material getMat() {
 		return mat;
 	}
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	public int getCount() {
